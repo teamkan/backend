@@ -35,7 +35,7 @@ const User = sequelize.define('User', {
   },
 }, { hooks, tableName });
 
-User.belongsTo(Role, {as: 'role'});
+User.belongsTo(Role, {as: 'role', foreignKey: { allowNull: false }});
 // eslint-disable-next-line
 User.prototype.toJSON = function () {
   const values = Object.assign({}, this.get());
