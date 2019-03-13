@@ -21,8 +21,18 @@ const UserController = () => {
         return res.status(200).json({ user });
       } 
       catch (err) {
-        console.log("error");
-        console.log(err);
+        /*if(err.name === "SequelizeUniqueConstraintError")
+          return res.status(500).json({ msg: 'Internal server error' });*/
+
+        //console.log(err.errors)
+        if(err.errors) {
+          var errReturn = ''
+          err.errors.forEach(error => {
+            errReturn += error.message.replace(/(^|\s)\S/g, function(t) { return t.toUpperCase() }); + '\n';
+          });
+          return res.status(500).json({ msg: errReturn });
+        }
+
         return res.status(500).json({ msg: 'Internal server error' });
       }
     }
