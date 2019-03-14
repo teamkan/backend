@@ -7,6 +7,7 @@ const privateRoutes = {
   'POST /createProject': 'ProjectController.createProject',
   'POST /assignUser': 'UserProjectController.assignUserToProject',
   'GET /userproject': 'UserProjectController.getAll',*/
+  'GET /roles': 'RoleController.getAll',
 };
 
 module.exports = privateRoutes;
