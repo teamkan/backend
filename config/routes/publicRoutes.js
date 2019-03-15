@@ -12,6 +12,13 @@ const publicRoutes = {
   'GET /users': 'UserController.getAll',
   'GET /projects': 'ProjectController.getAll',
   'GET /projectusers': 'UserProjectController.findByProject',
+
+  'GET /priorities': 'PrioritiesController.getAll',
+  'POST /priorities': 'PrioritiesController.createPriorities',
+  'GET /storys': 'StoryController.getAll',
+  'POST /storys': 'StoryController.createStory',
+  'GET /storyproject': 'StoryProjectController.getAll',
+  'POST /storyproject': 'StoryProjectController.createStoryProject',
 };
 
 module.exports = publicRoutes;
