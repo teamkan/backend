@@ -12,23 +12,25 @@ const tableName = 'user_projects';
 const UserProject = sequelize.define('UserProject', {
 }, { hooks, tableName });
 
-User.belongsToMany(Project, {
+/*User.belongsToMany(Project, {
   through: {
    model: UserProject,
    unique: false
   },
   foreignKey: 'user_id',
   constraints: false
-})
-Project.belongsToMany(User, {
+})*/
+/*Project.belongsToMany(User, {
   through: {
     model: UserProject,
     unique: false
   },
   foreignKey: 'project_id',
   constraints: false
-})
+})*/
 UserProject.belongsTo(Role, {as: 'role'})
+UserProject.belongsTo(Project, {as: 'project'})
+UserProject.belongsTo(User, {as: 'user'})
 
 // eslint-disable-next-line
 UserProject.prototype.toJSON = function () {

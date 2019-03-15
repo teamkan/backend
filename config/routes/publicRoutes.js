@@ -10,6 +10,8 @@ const publicRoutes = {
   'POST /assignUser': 'UserProjectController.assignUserToProject',
   'GET /userproject': 'UserProjectController.getAll',
   'GET /users': 'UserController.getAll',
+  'GET /projects': 'ProjectController.getAll',
+  'GET /projectusers': 'UserProjectController.findByProject',
 };
 
 module.exports = publicRoutes;
