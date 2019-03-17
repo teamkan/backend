@@ -28,7 +28,10 @@ const UserController = () => {
         if(err.errors) {
           var errReturn = ''
           err.errors.forEach(error => {
-            errReturn += error.message.replace(/(^|\s)\S/g, function(t) { return t.toUpperCase() }); + '\n';
+            errReturn += error.message.replace(/\w\S*/g, function(txt) {
+                  return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
+                }
+              ) + '\n';
           });
           return res.status(500).json({ msg: errReturn });
         }

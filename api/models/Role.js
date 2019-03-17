@@ -20,4 +20,14 @@ Role.prototype.toJSON = function () {
   return values;
 };
 
+Role.sync()
+  .then(() => {
+    Role.create({
+      name: 'Administrator'
+    });
+    Role.create({
+      name: 'User'
+    });
+  })
+
 module.exports = Role;
