@@ -1,4 +1,5 @@
 const Project = require('../models/Project');
+const UserProject = require('../models/UserProject');
 const authService = require('../services/auth.service');
 const bcryptService = require('../services/bcrypt.service');
 
@@ -28,16 +29,57 @@ const ProjectController = () => {
       const projects = await Project.findAll();
 
       return res.status(200).json({ projects });
+    } 
+    catch (err) {
+      console.log(err);
+      return res.status(500).json({ msg: 'Internal server error' });
+    }
+  };
+
+  const getByFilter = async (req, res) => {
+    try {
+      const { projectName } = req.query;
+      var conditions = {};
+      
+      if(projectName)
+        conditions.name = projectName;
+
+      const projects = await Project.findAll({
+        where: conditions
+      });
+      
+      return res.status(200).json({ projects });
+
+    } 
+    catch (err) {
+      console.log(err);
+      return res.status(500).json({ msg: 'Internal server error' });
+    }
+  };
+
+  const getUserProjects = async (req, res) => {
+    try {
+      const { projectId } = req.params;
+      
+      const projects = UserProject.findAll({
+        where: {
+          projectId: projectId
+        },
+      });
+
+      return res.status(200).json({ projects });
+
     } catch (err) {
       console.log(err);
       return res.status(500).json({ msg: 'Internal server error' });
     }
   };
 
-
   return {
     createProject,
     getAll,
+    getUserProjects,
+    getByFilter
   };
 };
 

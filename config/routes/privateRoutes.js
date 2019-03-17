@@ -7,9 +7,11 @@ const privateRoutes = {
   'GET /roles': 'RoleController.getAll',
   'GET /userprojects': 'UserProjectController.findById',
   'POST /projects': 'ProjectController.createProject',
-  'POST /assignUser': 'UserProjectController.assignUserToProject',
+  'POST /projects/assignUser': 'UserProjectController.assignUserToProject',
   'GET /userproject': 'UserProjectController.getAll',
   'GET /roles': 'RoleController.getAll',
+
+  'GET /projects/filter': 'ProjectController.getByFilter'
 };
 
 module.exports = privateRoutes;

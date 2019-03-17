@@ -1,5 +1,5 @@
 const Sequelize = require('sequelize');
-const Priorities = require('./Priorities')
+const Project = require('./Project')
 const sequelize = require('../../config/database');
 
 const hooks = {
@@ -8,29 +8,33 @@ const hooks = {
 const tableName = 'story';
 
 const Story = sequelize.define('Story', {
-  naziv: {
+  title: {
     type: Sequelize.STRING,
     unique: true,
     allowNull: false
   },
-  besedilo: {
+  description: {
     type: Sequelize.STRING,
     unique: false,
     allowNull: false
   },
-  testi: {
+  tests: {
     type: Sequelize.STRING,
     unique: false,
     allowNull: false
   },
-  poslovna_vrednost: {
+  businessValue: {
     type: Sequelize.INTEGER,
     unique: false,
     allowNull: false
   },
+  priority : {
+    type: Sequelize.ENUM,
+    values: ['must_have', 'should_have', 'could_have', 'wont_have']
+  }
 }, { hooks, tableName });
 
-Story.belongsTo(Priorities, {as: 'priorities', foreignKey: { allowNull: false }})
+Story.belongsTo(Project, {as: 'project', foreignKey: { allowNull: false }});
 
 // eslint-disable-next-line
 Story.prototype.toJSON = function () {
