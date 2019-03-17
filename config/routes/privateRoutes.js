@@ -11,7 +11,8 @@ const privateRoutes = {
   'GET /userproject': 'UserProjectController.getAll',
   'GET /roles': 'RoleController.getAll',
 
-  'GET /projects/filter': 'ProjectController.getByFilter'
+  'GET /projects/filter': 'ProjectController.getByFilter',
+  'GET /projects/users/filter': 'UserProjectController.getByFilter'
 };
 
 module.exports = privateRoutes;

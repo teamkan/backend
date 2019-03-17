@@ -38,11 +38,13 @@ const ProjectController = () => {
 
   const getByFilter = async (req, res) => {
     try {
-      const { projectName } = req.query;
+      const { projectName, projectId } = req.query;
       var conditions = {};
       
       if(projectName)
         conditions.name = projectName;
+      if(projectId)
+        conditions.id = projectId;
 
       const projects = await Project.findAll({
         where: conditions

@@ -118,6 +118,30 @@ const UserProjectController = () => {
     }
   };
 
+  const getByFilter = async (req, res) => {
+    try {
+      const { userId } = req.query;
+      var conditions = {};
+      
+      if(userId)
+        conditions.userId = userId;
+
+      const userProjects = await UserProject.findAll({
+        where: conditions,
+        include: [
+          { model: Project, as: 'project'},
+          { model: User, as: 'user'}
+        ]
+      });
+
+
+      return res.status(200).json({ userProjects });
+    } catch (err) {
+      console.log(err);
+      return res.status(500).json({ msg: 'Internal server error' });
+    }
+  };
+
 
   return {
     createUserProject,
@@ -125,6 +149,7 @@ const UserProjectController = () => {
     findByProject,
     assignUserToProject,
     getAll,
+    getByFilter
   };
 };
 
