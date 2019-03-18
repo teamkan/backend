@@ -142,6 +142,31 @@ const UserProjectController = () => {
     }
   };
 
+  const deleteUserProject = async (req, res) => {
+    const { body } = req;
+
+    if (body.userId && body.projectId) {
+      try {
+
+        const user_project = await UserProject.destroy({
+          where: {
+            $and: [{userId: body.userId}, {projectId: body.projectId}]
+          }
+        });
+
+        if (!user_project)
+          return res.status(400).json({ msg: 'Bad Request: User does not belog to this project' })
+
+        return res.status(200).json({ user_project });
+      } 
+      catch (err) {
+        console.log(err);
+        return res.status(500).json({ msg: 'Internal server error' });
+      }
+    }
+
+    return res.status(400).json({ msg: 'Bad Request: UserId and ProjectId not provided' });
+  };
 
   return {
     createUserProject,
@@ -149,7 +174,8 @@ const UserProjectController = () => {
     findByProject,
     assignUserToProject,
     getAll,
-    getByFilter
+    getByFilter,
+    deleteUserProject
   };
 };
 
