@@ -11,6 +11,8 @@ const privateRoutes = {
   'DELETE /projects/assignUser': 'UserProjectController.deleteUserProject',
   'GET /userproject': 'UserProjectController.getAll',
   'GET /roles': 'RoleController.getAll',
+  'POST /createSprint': 'SprintController.createSprint',
+  'GET /projects': 'ProjectController.getAll',
 
   'GET /projects/filter': 'ProjectController.getByFilter',
   'GET /projects/users/filter': 'UserProjectController.getByFilter'
