@@ -120,11 +120,13 @@ const UserProjectController = () => {
 
   const getByFilter = async (req, res) => {
     try {
-      const { userId } = req.query;
+      const { userId, projectId } = req.query;
       var conditions = {};
       
       if(userId)
         conditions.userId = userId;
+      if(projectId)
+        conditions.projectId = projectId;
 
       const userProjects = await UserProject.findAll({
         where: conditions,

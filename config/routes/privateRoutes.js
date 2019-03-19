@@ -12,7 +12,10 @@ const privateRoutes = {
   'GET /userproject': 'UserProjectController.getAll',
   'GET /roles': 'RoleController.getAll',
   'POST /createSprint': 'SprintController.createSprint',
-  'GET /projects': 'ProjectController.getAll',
+
+  'POST /stories': 'StoryController.createStory',
+  'GET /stories': 'StoryController.getAll',
+  'GET /stories/filter': 'StoryController.getByFilter',
 
   'GET /projects/filter': 'ProjectController.getByFilter',
   'GET /projects/users/filter': 'UserProjectController.getByFilter'
