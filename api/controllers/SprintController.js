@@ -56,11 +56,34 @@ const SprintController = () => {
             return res.status(500).json({ msg: 'Internal server error' });
         }
     };
+    
+
+  const getByFilter = async (req, res) => {
+    try {
+      const { projectId } = req.query;
+      var conditions = {};
+      
+      if(projectId)
+        conditions.projectId = projectId;
+
+      const sprints = await Sprint.findAll({
+        where: conditions
+      });
+      
+      return res.status(200).json({ sprints });
+
+    } 
+    catch (err) {
+      console.log(err);
+      return res.status(500).json({ msg: 'Internal server error' });
+    }
+  };
 
 
     return {
         createSprint,
         getAll,
+        getByFilter
     };
 };
 
