@@ -20,7 +20,7 @@ Role.prototype.toJSON = function () {
   return values;
 };
 
-Role.sync()
+/*Role.sync()
   .then(() => {
     const roleAdmin = Role.findAll({ where: {name: 'Administrator'}})
     if(!roleAdmin)
@@ -33,6 +33,6 @@ Role.sync()
       Role.create({
         name: 'User'
       });
-  })
+  })*/
 
 module.exports = Role;
