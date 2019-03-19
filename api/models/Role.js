@@ -22,12 +22,17 @@ Role.prototype.toJSON = function () {
 
 Role.sync()
   .then(() => {
-    Role.create({
-      name: 'Administrator'
-    });
-    Role.create({
-      name: 'User'
-    });
+    const roleAdmin = Role.findAll({ where: {name: 'Administrator'}})
+    if(!roleAdmin)
+      Role.create({
+        name: 'Administrator'
+      });
+
+    const roleUser = Role.findAll({ where: {name: 'User'}})
+    if(!roleUser)
+      Role.create({
+        name: 'User'
+      });
   })
 
 module.exports = Role;

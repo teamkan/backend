@@ -47,14 +47,16 @@ User.prototype.toJSON = function () {
 
 User.sync()
   .then(() => {
-    User.create({
-      username: 'rkanduti',
-      email: 'rok.kanduti@gmail.com',
-      password: 'teamban',
-      firstname: 'Rok',
-      lastname: 'Kanduti',
-      roleId: 1
-    })
+    const user = User.findAll({ where: {username: 'rkanduti'}})
+    if(!user)
+      User.create({
+          username: 'rkanduti',
+          email: 'rok.kanduti@gmail.com',
+          password: 'teamban',
+          firstname: 'Rok',
+          lastname: 'Kanduti',
+          roleId: 1
+        })
   })
 
 module.exports = User;
