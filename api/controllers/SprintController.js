@@ -4,32 +4,46 @@ const SprintController = () => {
     const createSprint = async (req, res) => {
         const { body } = req;
 
-        // POTREBNO JE PREVERITI ŠE PREKRIVANJE DATUMOV PROJEKTOV - kako naj tukaj pridobim seznam vseh sprintov? Spodaj je ideja:
-        //const sprints = this.getAll()
+        try {
+            const sprints = await Sprint.findAll();
+            let currentDate = new Date();
 
-        if (!body.startdate || !body.enddate || !body.speed) {
-            return res.status(400).json({ msg: 'Bad Request: Sprint information incomplete' });
+            if (body.startdate > body.enddate || body.startdate < currentDate || body.enddate < currentDate) {
+                return res.status(400).json({ msg: 'Bad Request: invalid Sprint dates' });
+            }
+
+            for (var date in sprints) {
+                if (date.startdate <= body.startdate && date.enddate >= body.enddate) {
+                    return res.status(400).json({ msg: 'Bad Request: selected dates overlap with existing Sprint' });
+                }
+                else if (date.startdate >= body.startdate && date.enddate <= body.enddate) {
+                    return res.status(400).json({ msg: 'Bad Request: selected dates overlap with existing Sprint' });
+                }
+            }
+
+            if (body.name && !isNaN(body.speed) && body.speed > 0) {
+                try {
+                    const sprint = await Sprint.create({
+                        sprintname: body.sprintname,
+                        startdate: body.startdate,
+                        enddate: body.enddate,
+                        speed: body.speed
+                    });
+
+                    return res.status(200).json({ sprint });
+                }
+                catch (err) {
+                    console.log(err);
+                    return res.status(500).json({ msg: 'Internal server error' });
+                }
+            }
+
+        } catch (err) {
+            console.log(err);
         }
 
-        // PREVERI ZAÈETNI IN KONÈNI DATUM TER HITROST
-        if (body.name) {
-            try {
-                const sprint = await Sprint.create({
-                    sprintname: body.sprintname,
-                    startdate: body.startdate,
-                    enddate: body.enddate,
-                    speed: body.speed
-                });
+        return res.status(400).json({ msg: 'Bad Request: incorrect Sprint information' });
 
-                return res.status(200).json({ sprint });
-            }
-            catch (err) {
-                console.log(err);
-                return res.status(500).json({ msg: 'Internal server error' });
-            }
-        }
-
-        return res.status(400).json({ msg: 'Bad Request: incorrect date selection' });
     };
 
     const getAll = async (req, res) => {

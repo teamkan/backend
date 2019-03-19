@@ -45,7 +45,7 @@ User.prototype.toJSON = function () {
   return values;
 };
 
-User.sync()
+/*User.sync()
   .then(() => {
     const user = User.findAll({ where: {username: 'rkanduti'}})
     if(!user)
@@ -57,6 +57,6 @@ User.sync()
           lastname: 'Kanduti',
           roleId: 1
         })
-  })
+  })*/
 
 module.exports = User;
