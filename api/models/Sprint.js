@@ -8,20 +8,20 @@ const hooks = {
 const tableName = 'sprints';
 
 const Sprint = sequelize.define('Sprint', {
-    sprintname: {
+    name: {
         type: Sequelize.STRING,
         unique: true,
         allowNull: false,
     },
     startdate: {
-        type: Sequelize.DATE,
+        type: Sequelize.DATEONLY,
         allowNull: false,
     },
     enddate: {
-        type: Sequelize.DATE,
+        type: Sequelize.DATEONLY,
         allowNull: false,
     },
-    speed: {
+    velocity: {
         type: Sequelize.INTEGER,
         allowNull: false,
     },

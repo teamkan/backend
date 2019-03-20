@@ -1,4 +1,5 @@
 const Story = require('../models/Story');
+const Sprint = require('../models/Sprint');
 const authService = require('../services/auth.service');
 const bcryptService = require('../services/bcrypt.service');
 
@@ -50,7 +51,10 @@ const StoryController = () => {
         conditions.projectId = projectId;
 
       const stories = await Story.findAll({
-        where: conditions
+        where: conditions,
+        include: [
+          { model: Sprint, as: 'sprint'}
+        ]
       });
       
       return res.status(200).json({ stories });

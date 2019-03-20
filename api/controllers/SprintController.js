@@ -1,33 +1,50 @@
 const Sprint = require('../models/Sprint');
-
+const Sequelize = require('sequelize');
+const Op = Sequelize.Op;
 const SprintController = () => {
     const createSprint = async (req, res) => {
         const { body } = req;
 
         try {
-            const sprints = await Sprint.findAll();
+            const sprints = await Sprint.findAll({
+                where: {
+                    startdate: {
+                        [Op.lt]: body.enddate  
+                    },
+                    enddate: {
+                        [Op.gt]: body.startdate  
+                    },
+                    projectId: body.projectId
+                }
+            });
+            
+            if(sprints.length > 0) {
+                return res.status(400).json({ msg: 'Bad Request: selected dates overlap with existing Sprint' });
+            }
+
             let currentDate = new Date();
 
-            if (body.startdate > body.enddate || body.startdate < currentDate || body.enddate < currentDate) {
-                return res.status(400).json({ msg: 'Bad Request: invalid Sprint dates' });
+            if (new Date(body.startdate).getTime() < currentDate || new Date(body.enddate).getTime() < currentDate) {
+                return res.status(400).json({ msg: 'Bad Request: invalid sprint dates' });
             }
 
             for (var date in sprints) {
                 if (date.startdate <= body.startdate && date.enddate >= body.enddate) {
-                    return res.status(400).json({ msg: 'Bad Request: selected dates overlap with existing Sprint' });
+                   
                 }
                 else if (date.startdate >= body.startdate && date.enddate <= body.enddate) {
                     return res.status(400).json({ msg: 'Bad Request: selected dates overlap with existing Sprint' });
                 }
             }
 
-            if (body.name && !isNaN(body.speed) && body.speed > 0) {
+            if (body.name && !isNaN(body.velocity) && body.velocity > 0) {
                 try {
                     const sprint = await Sprint.create({
-                        sprintname: body.sprintname,
+                        name: body.name,
                         startdate: body.startdate,
                         enddate: body.enddate,
-                        speed: body.speed
+                        velocity: body.velocity,
+                        projectId: body.projectId
                     });
 
                     return res.status(200).json({ sprint });
@@ -60,14 +77,16 @@ const SprintController = () => {
 
   const getByFilter = async (req, res) => {
     try {
-      const { projectId } = req.query;
+      const { projectId, name } = req.query;
       var conditions = {};
       
       if(projectId)
         conditions.projectId = projectId;
+      if(name)
+        conditions.name = name;
 
       const sprints = await Sprint.findAll({
-        where: conditions
+        where: conditions,
       });
       
       return res.status(200).json({ sprints });
