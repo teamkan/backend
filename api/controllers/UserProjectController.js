@@ -144,21 +144,17 @@ const UserProjectController = () => {
     }
   };
 
-  const deleteUserProject = async (req, res) => {
-    const { body } = req;
+  const deleteUsersFromProject = async (req, res) => {
+    const id = req.query.projectId;
 
-    if (body.userId && body.projectId) {
+    if (id) {
       try {
 
         const user_project = await UserProject.destroy({
           where: {
-            $and: [{userId: body.userId}, {projectId: body.projectId}]
+            projectId: id
           }
         });
-
-        if (!user_project)
-          return res.status(400).json({ msg: 'Bad Request: User does not belog to this project' })
-
         return res.status(200).json({ user_project });
       } 
       catch (err) {
@@ -167,7 +163,7 @@ const UserProjectController = () => {
       }
     }
 
-    return res.status(400).json({ msg: 'Bad Request: UserId and ProjectId not provided' });
+    return res.status(400).json({ msg: 'Bad Request: ProjectId not provided' });
   };
 
   const updateUserInProject = async (req, res) => {
@@ -203,7 +199,7 @@ const UserProjectController = () => {
     assignUserToProject,
     getAll,
     getByFilter,
-    deleteUserProject,
+    deleteUsersFromProject,
     updateUserInProject
   };
 };

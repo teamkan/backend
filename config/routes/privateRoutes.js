@@ -8,7 +8,6 @@ const privateRoutes = {
   'GET /userprojects': 'UserProjectController.findById',
   'POST /projects': 'ProjectController.createProject',
   'POST /projects/assignUser': 'UserProjectController.assignUserToProject',
-  'DELETE /projects/assignUser': 'UserProjectController.deleteUserProject',
   'PUT /projects/assignUser': 'UserProjectController.updateUserInProject',
   'GET /userproject': 'UserProjectController.getAll',
   'GET /roles': 'RoleController.getAll',
@@ -25,6 +24,7 @@ const privateRoutes = {
   'GET /projects/filter': 'ProjectController.getByFilter',
   'GET /projects/users/filter': 'UserProjectController.getByFilter',
 
+  'DELETE /projects/users': 'UserProjectController.deleteUsersFromProject',
   'PUT /projects': 'ProjectController.updateProjectName'
 };
 
