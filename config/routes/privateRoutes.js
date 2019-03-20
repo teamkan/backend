@@ -9,6 +9,7 @@ const privateRoutes = {
   'POST /projects': 'ProjectController.createProject',
   'POST /projects/assignUser': 'UserProjectController.assignUserToProject',
   'DELETE /projects/assignUser': 'UserProjectController.deleteUserProject',
+  'PUT /projects/assignUser': 'UserProjectController.updateUserInProject',
   'GET /userproject': 'UserProjectController.getAll',
   'GET /roles': 'RoleController.getAll',
   'POST /createSprint': 'SprintController.createSprint',
