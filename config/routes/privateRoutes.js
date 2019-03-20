@@ -23,7 +23,9 @@ const privateRoutes = {
   'GET /sprints/filter': 'SprintController.getByFilter',
 
   'GET /projects/filter': 'ProjectController.getByFilter',
-  'GET /projects/users/filter': 'UserProjectController.getByFilter'
+  'GET /projects/users/filter': 'UserProjectController.getByFilter',
+
+  'PUT /projects': 'ProjectController.updateProjectName'
 };
 
 module.exports = privateRoutes;
