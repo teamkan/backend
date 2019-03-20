@@ -82,12 +82,12 @@ const ProjectController = () => {
 
       const { body } = req;
 
-      if (!body.projectId || !body.projectName)
+      if (!body.id || !body.name)
         return res.status(400).json({ msg: 'Bad Request: ProjectId or projectName not provided' });
 
       const project = await Project.update(
-        {name: body.projectName},
-        {where: {id: body.projectId}}
+        {name: body.name},
+        {where: {id: body.id}}
       );
 
       console.log(project);
