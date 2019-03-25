@@ -12,6 +12,8 @@ const publicRoutes = {
   'GET /users': 'UserController.getAll',
   'GET /projects': 'ProjectController.getAll',
   'GET /projectusers': 'UserProjectController.findByProject',
+  'POST /createSprint': 'SprintController.createSprint',
+  'GET /sprints': 'SprintController.getAll',
 
   'GET /storys': 'StoryController.getAll',
   'POST /storys': 'StoryController.createStory',

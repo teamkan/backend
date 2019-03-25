@@ -77,11 +77,35 @@ const ProjectController = () => {
     }
   };
 
+  const updateProjectName = async (req, res) => {
+    try {
+
+      const { body } = req;
+
+      if (!body.id || !body.name)
+        return res.status(400).json({ msg: 'Bad Request: ProjectId or projectName not provided' });
+
+      const project = await Project.update(
+        {name: body.name},
+        {where: {id: body.id}}
+      );
+
+      console.log(project);
+
+      return res.status(200).json({ project });
+
+    } catch (err) {
+      console.log(err);
+      return res.status(500).json({ msg: 'Internal server error' });
+    }
+  };
+
   return {
     createProject,
     getAll,
     getUserProjects,
-    getByFilter
+    getByFilter,
+    updateProjectName
   };
 };
 

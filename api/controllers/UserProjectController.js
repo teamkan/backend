@@ -120,11 +120,13 @@ const UserProjectController = () => {
 
   const getByFilter = async (req, res) => {
     try {
-      const { userId } = req.query;
+      const { userId, projectId } = req.query;
       var conditions = {};
       
       if(userId)
         conditions.userId = userId;
+      if(projectId)
+        conditions.projectId = projectId;
 
       const userProjects = await UserProject.findAll({
         where: conditions,
@@ -142,6 +144,53 @@ const UserProjectController = () => {
     }
   };
 
+  const deleteUsersFromProject = async (req, res) => {
+    const id = req.query.projectId;
+
+    if (id) {
+      try {
+
+        const user_project = await UserProject.destroy({
+          where: {
+            projectId: id
+          }
+        });
+        return res.status(200).json({ user_project });
+      } 
+      catch (err) {
+        console.log(err);
+        return res.status(500).json({ msg: 'Internal server error' });
+      }
+    }
+
+    return res.status(400).json({ msg: 'Bad Request: ProjectId not provided' });
+  };
+
+  const updateUserInProject = async (req, res) => {
+    const { body } = req;
+
+    if (body.userId && body.projectId && body.roleId) {
+      try {
+
+        const user_project = await UserProject.update(
+            {roleId: body.roleId},
+            {where: {
+              $and: [{userId: body.userId}, {projectId: body.projectId}]}}
+          );
+
+        if (!user_project)
+          return res.status(400).json({ msg: 'Bad Request: User does not belog to this project' })
+
+        return res.status(200).json({ user_project });
+      } 
+      catch (err) {
+        console.log(err);
+        return res.status(500).json({ msg: 'Internal server error' });
+      }
+    }
+
+    return res.status(400).json({ msg: 'Bad Request: UserId, ProjectId and RoleId not provided' });
+  };
 
   return {
     createUserProject,
@@ -149,7 +198,9 @@ const UserProjectController = () => {
     findByProject,
     assignUserToProject,
     getAll,
-    getByFilter
+    getByFilter,
+    deleteUsersFromProject,
+    updateUserInProject
   };
 };
 

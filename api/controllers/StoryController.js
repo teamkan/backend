@@ -1,4 +1,5 @@
 const Story = require('../models/Story');
+const Sprint = require('../models/Sprint');
 const authService = require('../services/auth.service');
 const bcryptService = require('../services/bcrypt.service');
 
@@ -30,42 +31,46 @@ const StoryController = () => {
 
   const getAll = async (req, res) => {
     try {
-      const storys = await Story.findAll({
-        include: [
-          { model: Priorities, as: 'priorities'}
-        ]
-      });
+      const stories = await Story.findAll({      });
 
-      return res.status(200).json({ storys });
+      return res.status(200).json({ stories });
     } catch (err) {
       console.log(err);
       return res.status(500).json({ msg: 'Internal server error' });
     }
   };
 
-  const getByProject = async (req, res) => {
+  const getByFilter = async (req, res) => {
     try {
-      const { projectId } = req.params;
+      const { projectId, title } = req.query;
+      var conditions = {};
+      
+      if(title)
+        conditions.title = title;
+      if(projectId)
+        conditions.projectId = projectId;
 
       const stories = await Story.findAll({
-        where: {
-          projectId: projectId
-        },
+        where: conditions,
+        include: [
+          { model: Sprint, as: 'sprint'}
+        ]
       });
-
+      
       return res.status(200).json({ stories });
-    }
+
+    } 
     catch (err) {
       console.log(err);
-      return res.status(500).json({ msg: 'Internal server error' })
+      return res.status(500).json({ msg: 'Internal server error' });
     }
-  }
+  };
 
 
   return {
     createStory,
     getAll,
-    getByProject
+    getByFilter
   };
 };
 

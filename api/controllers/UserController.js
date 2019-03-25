@@ -51,7 +51,7 @@ const UserController = () => {
         const user = await User
           .findOne({
             where: {
-              email,
+              $or: [{username: email}, {email: email}]
             },
           });
 
